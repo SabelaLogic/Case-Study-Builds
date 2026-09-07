@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="stylesheet" href="_ds/modernist-864c3554-e6a8-413b-ac16-151e3e7a5adb/styles.css"><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"><style>body{margin:0;background:#0E1F16;font-family:'Inter',system-ui,sans-serif;color:#F6F1E4}a{color:#E4C989}a:hover{color:#D98A63}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}@keyframes slidein{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(240,232,214,.14);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}.dv-tid{font:600 10px 'Inter',system-ui,sans-serif;padding:3px 7px;background:#F6F1E4;color:#0E1F16;text-decoration:none}.dv-tname{font:600 13px/1.2 'Inter',system-ui,sans-serif;color:#F6F1E4}.dv-opts{display:flex;flex-wrap:wrap;gap:36px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:10px;scroll-margin-top:16px}.dv-oid{font:600 10.5px 'Inter',system-ui,sans-serif;padding:3px 7px;background:rgba(240,232,214,.12);color:#F6F1E4;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11px/1.4 'Inter',system-ui,sans-serif;color:#9FB3A4;max-width:402px}.dv-opt:target .dv-oid{background:#D98A63;color:#0E1F16}.dv-next{margin:26px 0 0;font:400 12px/1.6 'Inter',system-ui,sans-serif;color:#6E8378}</style></helmet>
+<section class="dv-turn" id="t2" style="padding-top:44px">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Admin + escalations, ENVIE palette</span></div>
+<div style="max-width:720px;margin:0 0 30px;font:400 13px/1.65 'Inter',system-ui,sans-serif;color:#9FB3A4">Both admin surfaces are mobile — the day-of team is standing at a venue. <a class="dv-oid" href="#2a">2a</a> merges the two admin ideas: live conversations arrive at the top of the list as they land, with the question tally underneath. <a class="dv-oid" href="#2b">2b</a> is the clock queue, sorted by how long a guest has actually been waiting. Palette and type come from your case study; the flat rules and flush-left structure come from Modernist.</div>
+<div class="dv-opts">
+<div class="dv-opt" id="2a"><div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a>Admin — live conversations arriving on top of the tally. Pause the feed, filter to escalations, tap a row for the transcript.</div><x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="402" height="812" dark="{{ true }}" hint-size="402px,812px">
+<div style="height:100%;display:flex;flex-direction:column;background:#0E1F16;padding-top:54px;position:relative">
+<div style="flex:none;padding:12px 16px 14px;border-bottom:1px solid rgba(240,232,214,.12)">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+<div>
+<div style="font:400 9.5px/1 'Inter',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#6E8378">ENVIE Concierge</div>
+<div style="margin-top:5px;font:500 19px/1.15 'Playfair Display',serif;color:#F6F1E4">Sipho &amp; Naledi</div>
+</div>
+<span style="flex:none;display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(90,181,124,.4);color:#8FDBA8;font:600 9.5px 'Inter',sans-serif;letter-spacing:.1em;padding:5px 9px"><span style="width:6px;height:6px;border-radius:50%;background:#5AB57C;animation:pulse 1.6s infinite"></span>LIVE</span>
+</div>
+<div style="margin-top:14px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+<sc-for list="{{ adStats }}" as="s" hint-placeholder-count="4">
+<div style="display:flex;flex-direction:column;gap:4px">
+<div style="{{ s.vStyle }}">{{ s.v }}</div>
+<div style="font:400 8.5px/1.2 'Inter',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#6E8378">{{ s.label }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="flex:none;display:flex;align-items:center;gap:7px;padding:10px 16px;border-bottom:1px solid rgba(240,232,214,.12)">
+<sc-for list="{{ adFilters }}" as="f" hint-placeholder-count="2">
+<button onClick="{{ f.tap }}" style="{{ f.style }}">{{ f.f }}</button>
+</sc-for>
+<button onClick="{{ adPause }}" style="{{ adPauseStyle }}">{{ adPauseLabel }}</button>
+</div>
+<div style="flex:1;overflow:auto">
+<sc-for list="{{ adRows }}" as="r" hint-placeholder-count="4">
+<button onClick="{{ r.open }}" style="{{ r.rowStyle }}">
+<div style="font:500 13.5px/1.35 'Inter',sans-serif;color:#F6F1E4">{{ r.q }}</div>
+<div style="{{ r.tagStyle }}">{{ r.label }}</div>
+<div style="font:400 10.5px/1.3 'Inter',sans-serif;color:#9FB3A4">{{ r.guest }}</div>
+<div style="font:400 10px/1.3 'Inter',sans-serif;color:#6E8378;white-space:nowrap">{{ r.ago }}</div>
+</button>
+</sc-for>
+<div style="padding:18px 16px 10px">
+<div style="font:400 9.5px/1 'Inter',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#6E8378">What guests keep asking</div>
+</div>
+<sc-for list="{{ adTally }}" as="g" hint-placeholder-count="4">
+<div style="padding:0 16px 16px;display:flex;flex-direction:column;gap:9px">
+<div style="font:600 11px/1.2 'Inter',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#E4C989">{{ g.name }}</div>
+<sc-for list="{{ g.rows }}" as="q" hint-placeholder-count="2">
+<div style="display:flex;flex-direction:column;gap:5px">
+<div style="display:flex;justify-content:space-between;gap:10px;font:400 12px/1.3 'Inter',sans-serif;color:#F6F1E4"><span>{{ q.q }}</span><span style="color:#9FB3A4">{{ q.n }}</span></div>
+<div style="height:3px;background:rgba(240,232,214,.1)"><span style="{{ q.barStyle }}"></span></div>
+</div>
+</sc-for>
+</div>
+</sc-for>
+<div style="height:40px"></div>
+</div>
+<sc-if value="{{ adHasOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:0;right:0;bottom:0;top:120px;background:#132A1E;border-top:1px solid rgba(201,162,75,.35);display:flex;flex-direction:column;animation:slidein .28s ease-out">
+<div style="flex:none;padding:13px 16px;border-bottom:1px solid rgba(240,232,214,.12);display:flex;align-items:center;justify-content:space-between;gap:10px">
+<div>
+<div style="font:500 14px/1.2 'Inter',sans-serif;color:#F6F1E4">{{ adOpen.guest }}</div>
+<div style="margin-top:3px;font:400 10px/1.2 'Inter',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#6E8378">WhatsApp transcript</div>
+</div>
+<button onClick="{{ adClose }}" style="cursor:pointer;background:transparent;border:1px solid rgba(240,232,214,.18);color:#9FB3A4;font:600 10.5px 'Inter',sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:7px 11px">Close</button>
+</div>
+<div style="flex:1;overflow:auto;padding:14px 16px;display:flex;flex-direction:column;gap:11px">
+<sc-for list="{{ adOpenMsgs }}" as="m" hint-placeholder-count="2">
+<div style="{{ m.rowStyle }}"><div style="{{ m.bubbleStyle }}">{{ m.t }}</div></div>
+</sc-for>
+</div>
+<div style="flex:none;padding:12px 16px 44px;border-top:1px solid rgba(240,232,214,.12);display:flex;gap:8px">
+<button style="flex:1;cursor:pointer;border:none;background:linear-gradient(90deg,#C9A24B,#D98A63);color:#25150C;font:600 12px 'Inter',sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:11px 0">Reply as ENVIE</button>
+<button style="flex:none;cursor:pointer;background:transparent;border:1px solid rgba(240,232,214,.18);color:#9FB3A4;font:600 12px 'Inter',sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:11px 14px">Flag</button>
+</div>
+</div>
+</sc-if>
+</div>
+</x-import></div>
+<div class="dv-opt" id="2b"><div class="dv-olabel"><a class="dv-oid" href="#2b">2b</a>Escalations — clock queue. Waits tick up in real time; claim a guest, reply, resolve.</div><x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="402" height="812" dark="{{ true }}" hint-size="402px,812px">
+<div style="height:100%;display:flex;flex-direction:column;background:#0E1F16;padding-top:54px;position:relative">
+<div style="flex:none;padding:12px 16px 14px;border-bottom:1px solid rgba(240,232,214,.12)">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+<div>
+<div style="font:400 9.5px/1 'Inter',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#6E8378">ENVIE Concierge</div>
+<div style="margin-top:5px;font:500 19px/1.15 'Playfair Display',serif;color:#F6F1E4">Escalations</div>
+</div>
+<span style="flex:none;display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(217,138,99,.45);color:#D98A63;font:600 9.5px 'Inter',sans-serif;letter-spacing:.1em;padding:5px 9px"><span style="width:6px;height:6px;border-radius:50%;background:#D98A63;animation:pulse 1.6s infinite"></span>{{ ebCount }} WAITING</span>
+</div>
+<div style="margin-top:10px;font:400 11px/1.4 'Inter',sans-serif;color:#9FB3A4">Sorted by how long a guest has actually been waiting — longest first.</div>
+</div>
+<div style="flex:1;overflow:auto">
+<sc-for list="{{ ebRows }}" as="r" hint-placeholder-count="3">
+<div style="{{ r.rowStyle }}">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+<div style="font:500 13.5px/1.3 'Inter',sans-serif;color:#F6F1E4">{{ r.guest }}</div>
+<div style="{{ r.clockStyle }}">{{ r.clock }}</div>
+</div>
+<div style="margin-top:5px;font:400 12.5px/1.4 'Inter',sans-serif;color:#D5DED8">{{ r.q }}</div>
+<div style="margin-top:10px;display:flex;gap:8px;align-items:center">
+<div style="{{ r.statusStyle }}">{{ r.statusLabel }}</div>
+<div style="flex:1"></div>
+<sc-if value="{{ r.showClaim }}" hint-placeholder-val="{{ true }}">
+<button onClick="{{ r.claim }}" style="cursor:pointer;border:none;background:linear-gradient(90deg,#C9A24B,#D98A63);color:#25150C;font:600 10.5px 'Inter',sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:8px 14px">Claim</button>
+</sc-if>
+<sc-if value="{{ r.showActions }}" hint-placeholder-val="{{ false }}">
+<button onClick="{{ r.reply }}" style="cursor:pointer;background:transparent;border:1px solid rgba(240,232,214,.18);color:#F6F1E4;font:600 10.5px 'Inter',sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:8px 12px">Reply</button>
+<button onClick="{{ r.resolve }}" style="cursor:pointer;background:transparent;border:1px solid rgba(90,181,124,.4);color:#8FDBA8;font:600 10.5px 'Inter',sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:8px 12px">Resolve</button>
+</sc-if>
+</div>
+</div>
+</sc-for>
+<sc-if value="{{ ebEmpty }}" hint-placeholder-val="{{ false }}">
+<div style="padding:40px 16px;text-align:center;font:400 12.5px/1.5 'Inter',sans-serif;color:#6E8378">Queue is clear — nothing waiting on a person right now.</div>
+</sc-if>
+<div style="height:40px"></div>
+</div>
+<sc-if value="{{ ebHasOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;left:0;right:0;bottom:0;top:120px;background:#132A1E;border-top:1px solid rgba(201,162,75,.35);display:flex;flex-direction:column;animation:slidein .28s ease-out">
+<div style="flex:none;padding:13px 16px;border-bottom:1px solid rgba(240,232,214,.12);display:flex;align-items:center;justify-content:space-between;gap:10px">
+<div>
+<div style="font:500 14px/1.2 'Inter',sans-serif;color:#F6F1E4">{{ ebOpen.guest }}</div>
+<div style="margin-top:3px;font:400 10px/1.2 'Inter',sans-serif;letter-spacing:.1em;text-transform:uppercase;color:#D98A63">Waiting {{ ebOpen.clock }}</div>
+</div>
+<button onClick="{{ ebClose }}" style="cursor:pointer;background:transparent;border:1px solid rgba(240,232,214,.18);color:#9FB3A4;font:600 10.5px 'Inter',sans-serif;letter-spacing:.08em;text-transform:uppercase;padding:7px 11px">Close</button>
+</div>
+<div style="flex:1;overflow:auto;padding:14px 16px;display:flex;flex-direction:column;gap:11px">
+<sc-for list="{{ ebOpenMsgs }}" as="m" hint-placeholder-count="2">
+<div style="{{ m.rowStyle }}"><div style="{{ m.bubbleStyle }}">{{ m.t }}</div></div>
+</sc-for>
+</div>
+<div style="flex:none;padding:12px 16px 44px;border-top:1px solid rgba(240,232,214,.12);display:flex;gap:8px">
+<input value="{{ ebInput }}" onChange="{{ ebType }}" onKeyDown="{{ ebKey }}" placeholder="Reply as the day-of team…" style="flex:1;background:rgba(240,232,214,.06);border:1px solid rgba(240,232,214,.14);color:#F6F1E4;font:400 13px 'Inter',sans-serif;padding:10px 12px;outline:none"/>
+<button onClick="{{ ebSubmit }}" style="flex:none;cursor:pointer;border:none;background:linear-gradient(90deg,#C9A24B,#D98A63);color:#25150C;font:600 12px 'Inter',sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:0 16px">Send</button>
+</div>
+</div>
+</sc-if>
+</div>
+</x-import></div>
+</div>
+<p class="dv-next">Try next: "make the tally in <a class="dv-oid" href="#2a">2a</a> collapsible so the live feed fills the screen" · "add a 'nudge the bot' action to <a class="dv-oid" href="#2b">2b</a>" · "show me the couple's post-event report"</p>
+</section>
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Guest thread, re-skinned</span></div>
+<div class="dv-opts">
+<div class="dv-opt" id="1a"><div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Guest WhatsApp thread. Type anything or tap a chip — answers come from the couple's real event record; anything unmatched hands off to a person.</div><x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" width="402" height="812" dark="{{ true }}" hint-size="402px,812px">
+<div style="height:100%;display:flex;flex-direction:column;background:#0E1F16;padding-top:54px">
+<div style="flex:none;padding:10px 16px 13px;border-bottom:1px solid rgba(240,232,214,.12);display:flex;align-items:center;gap:12px">
+<div style="width:36px;height:36px;flex:none;background:linear-gradient(135deg,#C9A24B,#D98A63);display:flex;align-items:center;justify-content:center;font:600 13px 'Inter',sans-serif;color:#25150C">EN</div>
+<div style="flex:1;min-width:0">
+<div style="font:600 14px/1.2 'Inter',sans-serif;letter-spacing:.02em;color:#F6F1E4">ENVIE Concierge</div>
+<div style="font:400 11px/1.4 'Inter',sans-serif;color:#9FB3A4">Sipho &amp; Naledi · 12 Oct</div>
+</div>
+<span style="flex:none;display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(90,181,124,.4);color:#8FDBA8;font:600 10px 'Inter',sans-serif;letter-spacing:.1em;padding:5px 10px"><span style="width:6px;height:6px;border-radius:50%;background:#5AB57C;animation:pulse 1.6s infinite"></span>ONLINE</span>
+</div>
+<div style="flex:1;overflow:auto;padding:16px 16px 10px;display:flex;flex-direction:column;gap:13px">
+<div style="align-self:center;font:400 9.5px/1 'Inter',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#6E8378">Today</div>
+<sc-for list="{{ aMsgs }}" as="m" hint-placeholder-count="3">
+<div style="{{ m.rowStyle }}">
+<div style="{{ m.bubbleStyle }}">{{ m.t }}</div>
+<div style="{{ m.metaStyle }}">{{ m.meta }}</div>
+</div>
+</sc-for>
+<sc-if value="{{ aTyping }}" hint-placeholder-val="{{ false }}">
+<div style="align-self:flex-start;display:flex;gap:5px;padding:12px 13px;background:#16301F">
+<span style="width:5px;height:5px;border-radius:50%;background:#9FB3A4;opacity:.4"></span>
+<span style="width:5px;height:5px;border-radius:50%;background:#9FB3A4;opacity:.7"></span>
+<span style="width:5px;height:5px;border-radius:50%;background:#9FB3A4"></span>
+</div>
+</sc-if>
+</div>
+<div style="flex:none;border-top:1px solid rgba(240,232,214,.12)">
+<div style="display:flex;gap:7px;overflow-x:auto;padding:11px 16px 5px">
+<sc-for list="{{ aChips }}" as="ch" hint-placeholder-count="4">
+<button onClick="{{ ch.tap }}" style="flex:none;white-space:nowrap;cursor:pointer;background:transparent;border:1px solid rgba(240,232,214,.18);color:#9FB3A4;font:400 12px 'Inter',sans-serif;padding:6px 12px" style-hover="border-color:#C9A24B;color:#E4C989">{{ ch.c }}</button>
+</sc-for>
+</div>
+<div style="display:flex;gap:8px;padding:9px 16px 44px;align-items:center">
+<input value="{{ aInput }}" onChange="{{ aType }}" onKeyDown="{{ aKey }}" placeholder="Message ENVIE…" style="flex:1;min-width:0;background:#16301F;border:1px solid rgba(240,232,214,.14);color:#F6F1E4;font:400 13.5px 'Inter',sans-serif;padding:10px 12px;outline:none">
+<button onClick="{{ aSubmit }}" style="flex:none;cursor:pointer;border:none;background:linear-gradient(90deg,#C9A24B,#D98A63);color:#25150C;font:600 13px 'Inter',sans-serif;padding:11px 18px">Send</button>
+</div>
+</div>
+</div>
+</x-import></div>
+</div>
+<p class="dv-next">Try next: "try a 'still typing' delay closer to real WhatsApp" · "add the couple's names to the bot's first message" · "show the escalation as it looks to the guest"</p>
+</section>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><rect width="400" height="400" fill="#0E1F16"></rect><g transform="translate(120 132)"><rect x="0" y="0" width="160" height="136" fill="none" stroke="#C9A24B" stroke-width="4"></rect><rect x="20" y="26" width="88" height="16" fill="#F6F1E4"></rect><rect x="20" y="58" width="120" height="16" fill="#9FB3A4"></rect><rect x="52" y="90" width="88" height="16" fill="#D98A63"></rect></g><text x="200" y="316" text-anchor="middle" fill="#E4C989" font-family="Georgia,serif" font-size="30">ENVIE</text></svg></template>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const BANK = [
+  { k: ['time','start','when','begin','ceremony','late'], t: 'Guests are seated by 15:30. The ceremony begins at 16:00 sharp.', src: 'Run sheet' },
+  { k: ['dress','wear','attire','white','suit','shoes','code'], t: 'Semi-formal, garden elegant. Grass-friendly shoes \u2014 the ceremony is on the lawn.', src: 'Invite' },
+  { k: ['park','direction','where','address','venue','drive','uber','manor'], t: 'Rosewood Manor, 14 Kloof Road. On-site parking is open; overflow is signposted 200m past the gate.', src: 'Venue record' },
+  { k: ['diet','vegan','vegetarian','allerg','halal','gluten','nut'], t: 'Noted, thank you. Tell the coordinator at the entrance your name and they will flag your seat.', src: 'Catering sheet' },
+  { k: ['gift','registry','present'], t: 'The couple have asked for no boxed gifts. A contribution card sits by the guest book.', src: 'Couple preferences' },
+  { k: ['kid','child','baby','children'], t: 'Children are welcome at the ceremony. Dinner from 19:00 is adults only.', src: 'Guest list' },
+  { k: ['dinner','food','eat','menu','served'], t: 'Canapes from 17:15, seated dinner is served at 19:00.', src: 'Run sheet' }
+];
+function answerFor(text) {
+  const q = (text || '').toLowerCase();
+  for (const b of BANK) if (b.k.some(w => q.includes(w))) return b;
+  return null;
+}
+const C = { deep: '#0E1F16', deep2: '#132A1E', card: '#16301F', line: 'rgba(240,232,214,0.12)', cream: '#F6F1E4', sage: '#9FB3A4', dim: '#6E8378', gold: '#C9A24B', goldS: '#E4C989', blush: '#D98A63' };
+
+class Component extends DCLogic {
+  state = {
+    aMsgs: [
+      { s: 'in', t: 'Hi \u2014 ENVIE here. Ask me anything about Sipho and Naledi\u2019s wedding tomorrow.', at: '15:38' },
+      { s: 'out', t: 'What time does it start?', at: '15:41' },
+      { s: 'in', t: 'Guests are seated by 15:30. The ceremony begins at 16:00 sharp.', at: '15:41' }
+    ],
+    aInput: '',
+    aTyping: false,
+    now: Date.now(),
+    adPaused: false,
+    adFilter: 'All',
+    adOpen: null,
+    adHandled: 184,
+    adRows: [
+      { id: 1, guest: 'Thandi M.', q: 'Is on-site parking full?', status: 'answered', at: Date.now() - 42000, thread: [{ s: 'out', t: 'Is on-site parking full?' }, { s: 'in', t: 'Rosewood Manor, 14 Kloof Road. On-site parking is open; overflow is signposted 200m past the gate.' }] },
+      { id: 2, guest: 'Unknown · +27 82 4…', q: 'Can I bring my mother, she is not on the invite', status: 'escalated', at: Date.now() - 95000, thread: [{ s: 'out', t: 'Can I bring my mother, she is not on the invite' }, { s: 'in', t: 'That one needs a person \u2014 passing it to Naledi\u2019s coordinator now.' }] },
+      { id: 3, guest: 'Lerato K.', q: 'What time does it start?', status: 'answered', at: Date.now() - 168000, thread: [{ s: 'out', t: 'What time does it start?' }, { s: 'in', t: 'Guests are seated by 15:30. The ceremony begins at 16:00 sharp.' }] },
+      { id: 4, guest: 'Sibusiso N.', q: 'Vegetarian option available?', status: 'answered', at: Date.now() - 240000, thread: [{ s: 'out', t: 'Vegetarian option available?' }, { s: 'in', t: 'Noted, thank you. Tell the coordinator at the entrance your name and they will flag your seat.' }] }
+    ],
+    adTally: [
+      { name: 'Directions and parking', max: 74, rows: [{ q: 'Rosewood Manor address', n: 74 }, { q: 'Is on-site parking full?', n: 12 }] },
+      { name: 'Dress code and attire', max: 74, rows: [{ q: 'Semi-formal, garden elegant', n: 61 }, { q: 'Can I wear white?', n: 9 }] },
+      { name: 'Timing', max: 74, rows: [{ q: 'Ceremony start time', n: 58 }, { q: 'When is dinner served?', n: 20 }] },
+      { name: 'Dietary and extras', max: 74, rows: [{ q: 'Vegetarian option available', n: 33 }, { q: 'Are kids allowed?', n: 14 }] }
+    ],
+    ebRows: [
+      { id: 'e1', guest: 'Unknown \u00b7 +27 83 2\u2026', q: 'My flight lands at 15:50, will I miss it?', at: Date.now() - 411000, claimedBy: null, thread: [{ s: 'out', t: 'My flight lands at 15:50, will I miss it?' }, { s: 'in', t: 'That one needs a person \u2014 passing it to the day-of team now.' }] },
+      { id: 'e2', guest: 'Zanele D.', q: 'Is the venue wheelchair accessible?', at: Date.now() - 246000, claimedBy: null, thread: [{ s: 'out', t: 'Is the venue wheelchair accessible?' }, { s: 'in', t: 'That one needs a person \u2014 passing it to the day-of team now.' }] },
+      { id: 'e3', guest: 'Unknown \u00b7 +27 82 4\u2026', q: 'Can I bring my mother, she is not on the invite', at: Date.now() - 95000, claimedBy: null, thread: [{ s: 'out', t: 'Can I bring my mother, she is not on the invite' }, { s: 'in', t: 'That one needs a person \u2014 passing it to Naledi\u2019s coordinator now.' }] }
+    ],
+    ebOpen: null,
+    ebInput: ''
+  };
+
+  _pool = [
+    { guest: 'Naledi\u2019s aunt · +27 71 3…', q: 'Where do we sit for the ceremony?', status: 'answered', tally: [2, 0] },
+    { guest: 'Kagiso P.', q: 'Can I wear white?', status: 'answered', tally: [1, 1] },
+    { guest: 'Zanele D.', q: 'Is the venue wheelchair accessible?', status: 'escalated', tally: [0, 0] },
+    { guest: 'Unknown · +27 60 9…', q: 'When is dinner served?', status: 'answered', tally: [2, 1] },
+    { guest: 'Mpho R.', q: 'Are kids allowed at dinner?', status: 'answered', tally: [3, 1] },
+    { guest: 'Ayanda S.', q: 'Which gate for the overflow parking?', status: 'answered', tally: [0, 1] },
+    { guest: 'Unknown · +27 83 2…', q: 'My flight lands at 15:50, will I miss it?', status: 'escalated', tally: [2, 0] }
+  ];
+
+  componentDidMount() {
+    this._tick = setInterval(() => this.setState({ now: Date.now() }), 1000);
+    this._feed = setInterval(() => {
+      if (this.state.adPaused || this.state.adOpen) return;
+      const p = this._pool[this._pi = ((this._pi || 0) + 1) % this._pool.length];
+      this.setState(s => {
+        const tally = s.adTally.map((g, gi) => gi === p.tally[0] ? { ...g, rows: g.rows.map((r, ri) => ri === p.tally[1] ? { ...r, n: r.n + 1 } : r) } : g);
+        const newAdRow = { ...p, id: Date.now(), at: Date.now(), fresh: true, thread: [{ s: 'out', t: p.q }, { s: 'in', t: p.status === 'escalated' ? 'That one needs a person \u2014 passing it to the day-of team now.' : (answerFor(p.q) || { t: 'Answered from the couple\u2019s event record.' }).t }] };
+        const nextEbRows = p.status === 'escalated'
+          ? [{ id: 'e' + Date.now(), guest: p.guest, q: p.q, at: Date.now(), claimedBy: null, thread: newAdRow.thread }, ...s.ebRows].slice(0, 8)
+          : s.ebRows;
+        return {
+          adHandled: s.adHandled + 1,
+          adTally: tally,
+          adRows: [newAdRow].concat(s.adRows.map(r => ({ ...r, fresh: false }))).slice(0, 9),
+          ebRows: nextEbRows
+        };
+      });
+    }, 3200);
+  }
+
+  clock() {
+    const d = new Date();
+    return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  }
+
+  aSend = (raw) => {
+    const text = (raw !== undefined ? raw : this.state.aInput).trim();
+    if (!text) return;
+    const at = this.clock();
+    this.setState(s => ({ aMsgs: s.aMsgs.concat([{ s: 'out', t: text, at }]), aInput: '', aTyping: true }));
+    clearTimeout(this._aT);
+    this._aT = setTimeout(() => {
+      const b = answerFor(text);
+      const reply = b
+        ? { s: 'in', t: b.t, at: this.clock() }
+        : { s: 'in', t: 'That one needs a person \u2014 I have passed it to Naledi\u2019s coordinator. She will reply right here.', at: this.clock(), esc: true };
+      this.setState(s => ({ aTyping: false, aMsgs: s.aMsgs.concat([reply]) }));
+    }, 1200);
+  };
+
+  componentWillUnmount() { clearTimeout(this._aT); clearInterval(this._tick); clearInterval(this._feed); }
+
+  aVals() {
+    return {
+      aMsgs: this.state.aMsgs.map((m, i) => ({
+        ...m, key: i,
+        rowStyle: { display: 'flex', flexDirection: 'column', alignItems: m.s === 'out' ? 'flex-end' : 'flex-start', gap: '4px' },
+        bubbleStyle: {
+          maxWidth: '84%', padding: '10px 13px', fontSize: '13.5px', lineHeight: 1.45,
+          background: m.s === 'out' ? 'rgba(201,162,75,0.18)' : C.card,
+          color: m.s === 'out' ? C.goldS : C.cream,
+          borderLeft: m.esc ? ('2px solid ' + C.blush) : 'none'
+        },
+        metaStyle: { fontSize: '9.5px', letterSpacing: '.1em', textTransform: 'uppercase', color: C.dim },
+        meta: m.esc ? m.at + ' \u00b7 handed to a person' : m.at
+      })),
+      aTyping: this.state.aTyping,
+      aInput: this.state.aInput,
+      aChips: ['Dress code?', 'Directions', 'Dietary need', 'Are kids allowed?', 'Gift registry?'].map(c => ({ c, tap: () => this.aSend(c) })),
+      aType: e => this.setState({ aInput: e.target.value }),
+      aKey: e => { if (e.key === 'Enter') this.aSend(); },
+      aSubmit: () => this.aSend()
+    };
+  }
+
+  adVals() {
+    const st = this.state;
+    const rows = st.adRows.filter(r => st.adFilter === 'All' ? true : r.status === 'escalated');
+    return {
+      adRows: rows.map(r => ({
+        ...r,
+        ago: this.ago(r.at),
+        open: () => this.setState({ adOpen: r }),
+        rowStyle: {
+          display: 'grid', gridTemplateColumns: '1fr auto', gap: '4px 10px', alignItems: 'baseline',
+          padding: '13px 16px', cursor: 'pointer', textAlign: 'left', width: '100%',
+          border: 'none', borderBottom: '1px solid ' + C.line, borderLeft: r.fresh ? ('2px solid ' + C.goldS) : '2px solid transparent',
+          background: r.status === 'escalated' ? 'rgba(217,138,99,0.10)' : 'transparent',
+          animation: r.fresh ? 'slidein .35s ease-out' : 'none', font: 'inherit', color: 'inherit'
+        },
+        tagStyle: {
+          font: "600 9px 'Inter',sans-serif", letterSpacing: '.1em', textTransform: 'uppercase', padding: '3px 7px', whiteSpace: 'nowrap',
+          color: r.status === 'escalated' ? C.blush : (r.status === 'waiting' ? C.goldS : '#8FDBA8'),
+          border: '1px solid ' + (r.status === 'escalated' ? 'rgba(217,138,99,.45)' : (r.status === 'waiting' ? 'rgba(201,162,75,.45)' : 'rgba(90,181,124,.4)'))
+        },
+        label: r.status === 'escalated' ? 'To a person' : (r.status === 'waiting' ? 'Answering' : 'Answered')
+      })),
+      adTally: st.adTally.map(g => ({
+        name: g.name,
+        rows: g.rows.map(q => ({ q: q.q, n: q.n, barStyle: { display: 'block', height: '100%', width: Math.round(q.n / g.max * 100) + '%', background: 'linear-gradient(90deg,' + C.blush + ',' + C.goldS + ')' } }))
+      })),
+      adStats: [
+        { label: 'Handled', v: String(st.adHandled) },
+        { label: 'Avg reply', v: '4s', gold: true },
+        { label: 'To a person', v: String(st.adRows.filter(r => r.status === 'escalated').length) },
+        { label: 'Guest rating', v: '98%' }
+      ].map(s => ({ ...s, vStyle: { font: "600 22px/1 'Inter',sans-serif", color: s.gold ? C.goldS : C.cream } })),
+      adFilters: ['All', 'To a person'].map(f => ({
+        f, tap: () => this.setState({ adFilter: f }),
+        style: {
+          cursor: 'pointer', border: 'none', font: "600 10.5px 'Inter',sans-serif", letterSpacing: '.08em', textTransform: 'uppercase',
+          padding: '7px 13px', background: st.adFilter === f ? C.cream : 'transparent', color: st.adFilter === f ? C.deep : C.sage
+        }
+      })),
+      adPauseLabel: st.adPaused ? 'Resume feed' : 'Pause feed',
+      adPause: () => this.setState(s => ({ adPaused: !s.adPaused })),
+      adPauseStyle: { cursor: 'pointer', background: 'transparent', border: '1px solid ' + C.line, color: st.adPaused ? C.goldS : C.sage, font: "600 10.5px 'Inter',sans-serif", letterSpacing: '.08em', textTransform: 'uppercase', padding: '7px 12px' },
+      adOpen: st.adOpen,
+      adHasOpen: !!st.adOpen,
+      adOpenMsgs: st.adOpen ? st.adOpen.thread.map((m, i) => ({
+        ...m, key: i,
+        rowStyle: { display: 'flex', flexDirection: 'column', alignItems: m.s === 'out' ? 'flex-end' : 'flex-start', gap: '3px' },
+        bubbleStyle: { maxWidth: '86%', padding: '9px 12px', fontSize: '13px', lineHeight: 1.45, background: m.s === 'out' ? 'rgba(201,162,75,0.16)' : C.card, color: m.s === 'out' ? C.goldS : C.cream }
+      })) : [],
+      adClose: () => this.setState({ adOpen: null })
+    };
+  }
+
+  ago(t) {
+    const s = Math.max(1, Math.round((this.state.now - t) / 1000));
+    if (s < 60) return s + 's ago';
+    const m = Math.floor(s / 60);
+    return m < 60 ? m + 'm ago' : Math.floor(m / 60) + 'h ago';
+  }
+
+  clockMMSS(t) {
+    const total = Math.max(0, Math.round((this.state.now - t) / 1000));
+    const m = Math.floor(total / 60);
+    const s = total % 60;
+    return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+  }
+
+  ebClaim = (row) => {
+    this.setState(s => ({ ebRows: s.ebRows.map(r => r.id === row.id ? { ...r, claimedBy: 'You' } : r) }));
+  };
+
+  ebResolve = (row) => {
+    this.setState(s => ({
+      ebRows: s.ebRows.filter(r => r.id !== row.id),
+      ebOpen: s.ebOpen && s.ebOpen.id === row.id ? null : s.ebOpen
+    }));
+  };
+
+  ebOpenRow = (row) => { this.setState({ ebOpen: row }); };
+  ebClose = () => { this.setState({ ebOpen: null }); };
+
+  ebSend = (raw) => {
+    const text = (raw !== undefined ? raw : this.state.ebInput).trim();
+    if (!text || !this.state.ebOpen) return;
+    const id = this.state.ebOpen.id;
+    const msg = { s: 'out', t: text };
+    this.setState(s => {
+      const rows = s.ebRows.map(r => r.id === id ? { ...r, thread: r.thread.concat([msg]) } : r);
+      const open = rows.find(r => r.id === id) || null;
+      return { ebRows: rows, ebOpen: open, ebInput: '' };
+    });
+  };
+
+  ebVals() {
+    const st = this.state;
+    const sorted = [...st.ebRows].sort((a, b) => a.at - b.at);
+    return {
+      ebCount: String(st.ebRows.length),
+      ebEmpty: st.ebRows.length === 0,
+      ebRows: sorted.map(r => ({
+        ...r,
+        clock: this.clockMMSS(r.at),
+        clockStyle: {
+          font: "600 15px/1 'JetBrains Mono','Inter',monospace", color: '#D98A63', fontVariantNumeric: 'tabular-nums'
+        },
+        rowStyle: {
+          padding: '13px 16px', borderBottom: '1px solid rgba(240,232,214,.12)',
+          background: r.claimedBy ? 'rgba(90,181,124,0.06)' : 'rgba(217,138,99,0.08)'
+        },
+        statusLabel: r.claimedBy ? ('Claimed by ' + r.claimedBy) : 'Waiting for a person',
+        statusStyle: {
+          font: "600 9px 'Inter',sans-serif", letterSpacing: '.1em', textTransform: 'uppercase', padding: '3px 7px',
+          color: r.claimedBy ? '#8FDBA8' : '#D98A63',
+          border: '1px solid ' + (r.claimedBy ? 'rgba(90,181,124,.4)' : 'rgba(217,138,99,.45)')
+        },
+        showClaim: !r.claimedBy,
+        showActions: !!r.claimedBy,
+        claim: () => this.ebClaim(r),
+        reply: () => this.ebOpenRow(r),
+        resolve: () => this.ebResolve(r)
+      })),
+      ebOpen: st.ebOpen,
+      ebHasOpen: !!st.ebOpen,
+      ebOpenMsgs: st.ebOpen ? st.ebOpen.thread.map((m, i) => ({
+        ...m, key: i,
+        rowStyle: { display: 'flex', flexDirection: 'column', alignItems: m.s === 'out' ? 'flex-end' : 'flex-start', gap: '3px' },
+        bubbleStyle: { maxWidth: '86%', padding: '9px 12px', fontSize: '13px', lineHeight: 1.45, background: m.s === 'out' ? 'rgba(201,162,75,0.16)' : C.card, color: m.s === 'out' ? C.goldS : C.cream }
+      })) : [],
+      ebInput: st.ebInput,
+      ebType: e => this.setState({ ebInput: e.target.value }),
+      ebKey: e => { if (e.key === 'Enter') this.ebSend(); },
+      ebSubmit: () => this.ebSend(),
+      ebClose: this.ebClose
+    };
+  }
+
+  renderVals() { return { ...this.aVals(), ...this.adVals(), ...this.ebVals() }; }
+}
+
+</script>
+</body>
+</html>
