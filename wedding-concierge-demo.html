@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENVIE Wedding Concierge — Demo</title>
+<style>
+  :root{
+    --surface-1:#16301F;
+    --surface-2:#132A1E;
+    --border:rgba(240,232,214,0.14);
+    --bg-tint-green:rgba(201,162,75,0.18);
+    --text-tint-green:#E4C989;
+    --text-primary:#F6F1E4;
+    --text-secondary:#9FB3A4;
+  }
+  body{
+    background:#0E1F16;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    padding:32px 16px;
+    margin:0;
+    display:flex;
+    justify-content:center;
+  }
+  button{
+    font-family:inherit;
+    border:1px solid var(--border);
+    background:transparent;
+    color:var(--text-primary);
+    border-radius:999px;
+    cursor:pointer;
+  }
+  button:hover{background:rgba(255,255,255,0.06);}
+</style>
+</head>
+<body>
+
+<div style="background: var(--surface-1); border-radius: 16px; padding: 16px; max-width: 340px; margin: 0 auto;">
+  <h2 style="position:absolute;width:1px;height:1px;overflow:hidden;">Demo of a WhatsApp wedding-day concierge chat branded for ENVIE</h2>
+  <div style="background: var(--surface-2); border: 0.5px solid var(--border); border-radius: 12px; overflow: hidden;">
+    <div style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 0.5px solid var(--border);">
+      <div style="width: 36px; height: 36px; border-radius: 50%; background: var(--bg-tint-green); display: flex; align-items: center; justify-content: center; font-weight: 500; font-size: 13px; color: var(--text-tint-green);">EV</div>
+      <div>
+        <p style="font-weight: 500; font-size: 14px; margin: 0; color: var(--text-primary);">ENVIE wedding concierge</p>
+        <p style="font-size: 12px; color: var(--text-secondary); margin: 0;">Sipho and Naledi's wedding</p>
+      </div>
+    </div>
+    <div id="thread" style="padding: 14px; display: flex; flex-direction: column; gap: 10px; min-height: 220px;">
+      <div style="align-self: flex-start; background: var(--surface-1); border-radius: 12px; padding: 8px 12px; max-width: 78%; font-size: 14px; color: var(--text-primary);">
+        Hi, I'm here to help with anything about tomorrow's wedding. Ask me about dress code, directions, timing or food.
+      </div>
+    </div>
+    <div id="chips" style="display: flex; flex-wrap: wrap; gap: 8px; padding: 0 14px 14px;">
+      <button data-q="dress" style="font-size: 13px; padding: 6px 12px;">Dress code?</button>
+      <button data-q="directions" style="font-size: 13px; padding: 6px 12px;">Directions and parking</button>
+      <button data-q="time" style="font-size: 13px; padding: 6px 12px;">What time does it start?</button>
+      <button data-q="diet" style="font-size: 13px; padding: 6px 12px;">I have a dietary restriction</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const answers = {
+  dress: "Semi-formal, garden-elegant. Soft golds and neutrals photograph best, please avoid white and bright red.",
+  directions: "The venue is Rosewood Manor, 12 Vine Road. Parking is on-site, follow the gold balloon arch from the gate.",
+  time: "Guests are seated by 15:30, the ceremony begins at 16:00 sharp.",
+  diet: "Noted, thank you. Let the venue coordinator at the entrance know your name and they'll flag your seat."
+};
+const thread = document.getElementById('thread');
+const chips = document.getElementById('chips');
+function addBubble(text, fromGuest){
+  const div = document.createElement('div');
+  div.style.alignSelf = fromGuest ? 'flex-end' : 'flex-start';
+  div.style.background = fromGuest ? 'var(--bg-tint-green)' : 'var(--surface-1)';
+  div.style.color = fromGuest ? 'var(--text-tint-green)' : 'var(--text-primary)';
+  div.style.borderRadius = '12px';
+  div.style.padding = '8px 12px';
+  div.style.maxWidth = '78%';
+  div.style.fontSize = '14px';
+  div.textContent = text;
+  thread.appendChild(div);
+  thread.scrollTop = thread.scrollHeight;
+}
+chips.addEventListener('click', function(e){
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  const key = btn.getAttribute('data-q');
+  const labelMap = {dress:'Dress code?', directions:'Directions and parking', time:'What time does it start?', diet:'I have a dietary restriction'};
+  addBubble(labelMap[key], true);
+  btn.disabled = true;
+  btn.style.opacity = '0.4';
+  setTimeout(function(){
+    addBubble(answers[key], false);
+  }, 500);
+});
+</script>
+
+</body>
+</html>
