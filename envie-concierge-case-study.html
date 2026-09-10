@@ -219,6 +219,33 @@
   }
   .closing-caption{font-size:12px;color:var(--sage-dim);margin-bottom:34px;letter-spacing:0.02em;}
 
+  /* Steps-intro visual — a small RSVP/QR crop sitting beside the "how it
+     works" heading, since step 01 is literally this. */
+  .steps-intro{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:56px;}
+  .steps-intro .copy{flex:1 1 380px;min-width:260px;}
+  .steps-intro .copy h2{margin-bottom:0;}
+  .steps-intro .media{flex:0 0 260px;}
+  .steps-intro .media img{
+    width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;
+    border-radius:14px;border:1px solid var(--card-line);
+    box-shadow:0 20px 50px rgba(0,0,0,0.35);
+    filter:saturate(0.94) contrast(1.02);
+  }
+  .steps-intro .media p{font-size:11.5px;color:var(--sage-dim);margin-top:10px;text-align:center;}
+  @media (max-width:720px){ .steps-intro{flex-direction:column;text-align:center;} }
+
+  /* Full-width image strip — a breathing beat between sections that isn't
+     another text+image split, so the page doesn't repeat one pattern. */
+  .img-strip{padding:0;}
+  .img-strip img{
+    width:100%;max-height:420px;object-fit:cover;display:block;
+    filter:saturate(0.94) contrast(1.02);
+  }
+  .img-strip .cap{
+    text-align:center;padding:18px 0;font-size:12.5px;color:var(--sage-dim);
+    background:var(--deep-2);border-bottom:1px solid var(--card-line);
+  }
+
   /* HOW IT WORKS */
   .steps{padding:96px 0;}
   .steps > .wrap > .eyebrow{margin-bottom:18px;}
@@ -449,8 +476,16 @@
 
 <div class="steps dots">
   <div class="wrap">
-    <span class="eyebrow">How it works</span>
-    <h2 class="serif">Six steps. Zero apps to download. Nothing to explain twice.</h2>
+    <div class="steps-intro">
+      <div class="copy">
+        <span class="eyebrow">How it works</span>
+        <h2 class="serif">Six steps. Zero apps to download. Nothing to explain twice.</h2>
+      </div>
+      <div class="media">
+        <img src="assets/envie-rsvp-qr.webp" alt="RSVP QR code on the wedding invitation" loading="lazy">
+        <p>Step 01 starts here — the same QR code guests already scan to RSVP</p>
+      </div>
+    </div>
 
     <div class="step">
       <div class="idx">01</div>
@@ -495,6 +530,11 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="img-strip">
+  <img src="assets/envie-tablescape.webp" alt="Table florals and venue grounds at golden hour" loading="lazy">
+  <p class="cap">The kind of detail a guest asks about, and now has an answer for in seconds.</p>
 </div>
 
 <div class="band band-split reverse">
