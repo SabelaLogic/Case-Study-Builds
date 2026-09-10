@@ -158,6 +158,28 @@
   .row-top .n{color:var(--gold-soft);font-weight:600;}
   .bar{height:4px;border-radius:2px;background:rgba(246,241,228,0.08);overflow:hidden;}
   .bar i{display:block;height:100%;border-radius:2px;background:linear-gradient(90deg,var(--blush),var(--gold-soft));}
+  .stat.red .num{color:#D9695E;}
+
+  /* Escalation queue — the second dashboard: sorted by wait time, not tally. */
+  .filters{display:flex;gap:8px;margin-bottom:18px;}
+  .filter-pill{
+    font-size:10.5px;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;
+    padding:7px 13px;border-radius:999px;border:1px solid var(--card-line);color:var(--sage);
+  }
+  .filter-pill.active{background:var(--cream);color:var(--deep);border-color:var(--cream);}
+  .queue{display:flex;flex-direction:column;gap:1px;background:var(--card-line);border-radius:10px;overflow:hidden;border:1px solid var(--card-line);}
+  .qrow{background:var(--card);padding:16px 18px;display:grid;grid-template-columns:1fr auto;gap:4px 14px;align-items:baseline;}
+  .qrow.escalated{background:rgba(217,138,99,0.08);}
+  .qrow .q{font-size:13.5px;font-weight:500;color:var(--cream);grid-column:1;}
+  .qrow .tag2{
+    font-size:9px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;padding:3px 8px;border-radius:999px;
+    white-space:nowrap;grid-row:1;grid-column:2;
+  }
+  .qrow.escalated .tag2{color:var(--blush);border:1px solid rgba(217,138,99,.45);}
+  .qrow.waiting .tag2{color:var(--gold-soft);border:1px solid rgba(201,162,75,.45);}
+  .qrow .guest{font-size:11px;color:var(--sage);grid-column:1;}
+  .qrow .ago{font-size:10.5px;color:var(--sage-dim);grid-column:2;text-align:right;white-space:nowrap;}
+  .queue-caption{font-size:12px;color:var(--sage-dim);margin-top:14px;line-height:1.5;}
 
   /* PHOTO-STYLE BAND */
   .band{
@@ -169,6 +191,33 @@
   .band .eyebrow{margin-bottom:20px;}
   .band h2{font-size:36px;font-style:italic;font-weight:500;max-width:640px;line-height:1.3;}
   .band p{color:var(--sage);max-width:520px;margin-top:16px;font-size:15px;}
+
+  /* Split band — a photograph paired with a claim it's backing up, rather
+     than photography dropped in as pure decoration. */
+  .band-split .wrap{display:flex;align-items:center;gap:56px;flex-wrap:wrap;}
+  .band-split .band-copy{flex:1 1 380px;min-width:280px;}
+  .band-split .band-media{flex:1 1 420px;min-width:280px;}
+  .band-split.reverse .wrap{flex-direction:row-reverse;}
+  .band-split .band-media img{
+    width:100%;aspect-ratio:4/3;object-fit:cover;display:block;
+    border-radius:16px;border:1px solid var(--card-line);
+    box-shadow:0 24px 60px rgba(0,0,0,0.38);
+    filter:saturate(0.94) contrast(1.02);
+  }
+  @media (max-width:720px){
+    .band-split .wrap, .band-split.reverse .wrap{flex-direction:column;text-align:center;}
+    .band-split .band-copy > *{margin-left:auto;margin-right:auto;}
+  }
+
+  /* Closing portrait — a face on the "this is who you build for" close. */
+  .closing-portrait{
+    width:132px;height:132px;border-radius:50%;object-fit:cover;
+    margin:0 auto 22px;display:block;
+    border:3px solid var(--card-line);
+    box-shadow:0 16px 40px rgba(0,0,0,0.4);
+    filter:saturate(0.94) contrast(1.02);
+  }
+  .closing-caption{font-size:12px;color:var(--sage-dim);margin-bottom:34px;letter-spacing:0.02em;}
 
   /* HOW IT WORKS */
   .steps{padding:96px 0;}
@@ -326,13 +375,74 @@
       </div>
     </div>
   </div>
+
+  <!-- Second dashboard: the escalation queue. The design exploration this
+       case study is based on left this panel as an empty placeholder —
+       finished here in the same visual language as the tally above. -->
+  <div class="browser wrap">
+    <div class="browser-bar">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      <span class="url">envie.sabelalogic.app/concierge/queue</span>
+    </div>
+    <div class="dash">
+      <div class="dash-top">
+        <div class="brandline">
+          <div class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.6-9.6-9.2C.6 8.3 2.4 4.8 6 4.4c2-.2 3.6.8 4.6 2.2C11.6 5.2 13.2 4.2 15.2 4.4c3.6.4 5.4 3.9 3.6 7.4C16.2 16.4 12 21 12 21z" stroke="#25150C" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+          <div><b>ENVIE WEDDING CONCIERGE</b><br><span style="font-size:12px;">Sipho and Naledi's wedding</span></div>
+        </div>
+        <span class="live"><i></i>LIVE</span>
+      </div>
+      <h2 class="serif">Escalation queue</h2>
+      <p class="sub">Sorted by how long a guest has actually been waiting</p>
+
+      <div class="stat-row">
+        <div class="stat red"><div class="label">Waiting now</div><div class="num">2</div></div>
+        <div class="stat"><div class="label">Longest wait</div><div class="num">1m 35s</div></div>
+        <div class="stat gold"><div class="label">Avg time to claim</div><div class="num">22s</div></div>
+        <div class="stat green"><div class="label">Resolved today</div><div class="num">17</div></div>
+      </div>
+
+      <div class="standings">
+        <div class="filters">
+          <span class="filter-pill active">All</span>
+          <span class="filter-pill">To a person</span>
+        </div>
+        <div class="queue">
+          <div class="qrow escalated">
+            <span class="q">Can I bring my mother, she is not on the invite</span>
+            <span class="tag2">To a person</span>
+            <span class="guest">Unknown · +27 82 4…</span>
+            <span class="ago">1m 35s ago</span>
+          </div>
+          <div class="qrow escalated">
+            <span class="q">Is the venue wheelchair accessible?</span>
+            <span class="tag2">To a person</span>
+            <span class="guest">Zanele D.</span>
+            <span class="ago">48s ago</span>
+          </div>
+          <div class="qrow waiting">
+            <span class="q">My flight lands at 15:50, will I miss the ceremony?</span>
+            <span class="tag2">Answering</span>
+            <span class="guest">Unknown · +27 83 2…</span>
+            <span class="ago">6s ago</span>
+          </div>
+        </div>
+        <p class="queue-caption">Claim a guest, reply from inside the dashboard, resolve — the wait clock stops the moment someone picks it up, so nothing sits unanswered because it scrolled off the top of a phone.</p>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="band">
+<div class="band band-split">
   <div class="wrap">
-    <span class="eyebrow">SabelaLogic × ENVIE</span>
-    <h2 class="serif">From "hi" to answered, before they've put the phone down.</h2>
-    <p>A concierge that runs on ENVIE's own WhatsApp number — every guest text handled instantly, every edge case routed to a real person, every conversation logged for the day-of team.</p>
+    <div class="band-copy">
+      <span class="eyebrow">SabelaLogic × ENVIE</span>
+      <h2 class="serif">From "hi" to answered, before they've put the phone down.</h2>
+      <p>A concierge that runs on ENVIE's own WhatsApp number — every guest text handled instantly, every edge case routed to a real person, every conversation logged for the day-of team.</p>
+    </div>
+    <div class="band-media">
+      <img src="assets/envie-ceremony-aisle.webp" alt="Ceremony seating and floral arch at golden hour" loading="lazy">
+    </div>
   </div>
 </div>
 <div class="wave-divider-envie"></div>
@@ -387,10 +497,16 @@
   </div>
 </div>
 
-<div class="band">
+<div class="band band-split reverse">
   <div class="wrap">
-    <span class="eyebrow">Built for the guest, not the screen</span>
-    <h2 class="serif">The guest never notices the tech. They just get an answer.</h2>
+    <div class="band-copy">
+      <span class="eyebrow">Built for the guest, not the screen</span>
+      <h2 class="serif">The guest never notices the tech. They just get an answer.</h2>
+      <p>Whatever's happening in this room — a toast, a dance floor filling up — the phone in someone's clutch bag is having the same quiet, instant exchange it would at any hour of the day.</p>
+    </div>
+    <div class="band-media">
+      <img src="assets/envie-reception-toast.webp" alt="Guests toasting at the reception" loading="lazy">
+    </div>
   </div>
 </div>
 <div class="wave-divider-envie"></div>
@@ -457,12 +573,14 @@
 
 <div class="closing dots">
   <div class="wrap">
+    <img class="closing-portrait" src="assets/envie-couple-portrait.webp" alt="The couple this concierge was built for">
+    <p class="closing-caption serif" style="font-style:italic;">This is who it was actually for.</p>
     <div class="mark" style="margin:0 auto 26px;"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.6-9.6-9.2C.6 8.3 2.4 4.8 6 4.4c2-.2 3.6.8 4.6 2.2C11.6 5.2 13.2 4.2 15.2 4.4c3.6.4 5.4 3.9 3.6 7.4C16.2 16.4 12 21 12 21z" stroke="#25150C" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
     <div class="brand">SABELALOGIC</div>
     <h2 class="serif">This is what we build. <span class="accent">Custom, from scratch, shipped end-to-end.</span></h2>
     <p style="color:var(--sage);max-width:560px;margin:0 auto 34px;font-size:15px;">WhatsApp concierges, voting platforms, ticketing, payment flows, live dashboards — designed and built around your event, your brand, your guests. If you've seen what this looks like, imagine what we'd build for you.</p>
     <a href="#" class="cta">Let's build yours next →</a>
-    <div class="foot">Sample data shown for illustration · SabelaLogic — bespoke digital platforms</div>
+    <div class="foot">Sample data and photography shown for illustration · SabelaLogic — bespoke digital platforms</div>
   </div>
 </div>
 
